@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
@@ -156,7 +157,7 @@ class UserModel extends HiveObject {
   /// Calculate level from total XP
   int _calculateLevel(int xp) {
     // Level = floor(sqrt(totalXP / 100))
-    return (xp / 100).sqrt().floor().clamp(1, 50);
+    return math.sqrt(xp / 100).floor().clamp(1, 50);
   }
 
   /// Create a copy with updated fields
