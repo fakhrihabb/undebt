@@ -20,49 +20,47 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Shadow layer (3D effect)
-        Container(
-          margin: const EdgeInsets.only(top: 4),
-          decoration: BoxDecoration(
-            color: AppColors.surfaceDark.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(16),
-          ),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: gradient,
+        color: gradient == null ? AppColors.surfaceDark : null,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.textOnDark.withValues(alpha: 0.1),
+          width: 1,
         ),
-        // Main card
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            gradient: gradient,
-            color: gradient == null ? AppColors.surfaceDark : null,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: AppColors.textOnDark.withValues(alpha: 0.1),
-              width: 1,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.surfaceDark.withValues(alpha: 0.5),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Icon
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: (iconColor ?? AppColors.primaryBlue).withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              icon,
+              size: 24,
+              color: iconColor ?? AppColors.primaryBlue,
             ),
           ),
-          child: Column(
+          
+          // Value and Label
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Icon
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: (iconColor ?? AppColors.primaryBlue).withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(
-                  icon,
-                  size: 24,
-                  color: iconColor ?? AppColors.primaryBlue,
-                ),
-              ),
-              
-              const SizedBox(height: 12),
-              
-              // Value
               Text(
                 value,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -72,10 +70,7 @@ class StatCard extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              
               const SizedBox(height: 4),
-              
-              // Label
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -86,8 +81,8 @@ class StatCard extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

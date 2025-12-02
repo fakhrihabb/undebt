@@ -131,19 +131,19 @@ class _NavItem extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               // Label
               AnimatedDefaultTextStyle(
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                   color: isActive
                       ? AppColors.primaryBlue
                       : AppColors.textOnDark.withValues(alpha: 0.6),
                 ),
-                child: Text(label),
+                child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
               ),
             ],
           ),
