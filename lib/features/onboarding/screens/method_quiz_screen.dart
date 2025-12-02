@@ -102,6 +102,44 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
       recommendedMethod = AppConstants.methodHybrid;
       explanation = 'The Hybrid method balances both approaches! '
           'You\'ll target high-interest debts (>20% APR) first, '
+          'then use the snowball method for the rest.';
+      confidence = 75;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _ResultsSheet(
+        method: recommendedMethod,
+        explanation: explanation,
+        confidence: confidence,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final question = _questions[_currentQuestion];
+    final progress = (_currentQuestion + 1) / _questions.length;
+
+
+    return Scaffold(
+      backgroundColor: AppColors.backgroundDark,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text('Find Your Method', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            if (_currentQuestion > 0) {
+              _previousQuestion();
+            } else {
+              context.pop();
+            }
+          },
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -115,75 +153,74 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Progress Bar
-                LinearProgressIndicator(
-                  value: progress,
-                  backgroundColor: AppColors.backgroundLight,
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.success),
-                  minHeight: 8,
-                  borderRadius: BorderRadius.circular(4),
-                ).animate(key: ValueKey('progress_$_currentQuestion')).fadeIn(),
-                
-                const SizedBox(height: 16),
-                
-                // Question Counter
-                Text(
-                  'Question ${_currentQuestion + 1} of ${_questions.length}',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textOnDark.withValues(alpha: 0.7),
-                  ),
-                ).animate(key: ValueKey('counter_$_currentQuestion')).fadeIn(),
-                
-                const SizedBox(height: 32),
-                
-                // Question
-                Text(
-                  question.question,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: AppColors.textOnDark,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ).animate(key: ValueKey('question_$_currentQuestion'))
-                    .fadeIn(duration: 300.ms)
-                    .slideY(begin: 0.2, end: 0),
-                
-                const SizedBox(height: 32),
-                
-                // Options
-                ...question.options.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final option = entry.value;
-                  final isSelected = _answers[_currentQuestion] == option.score;
-                  
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: _OptionCard(
-                      text: option.text,
-                      isSelected: isSelected,
-                      onTap: () => _answerQuestion(option.score),
-                    ).animate(key: ValueKey('$_currentQuestion-$index'))
-                        .fadeIn(delay: (index * 100).ms)
-                        .slideX(begin: -0.2, end: 0),
-                  );
-                }),
-                
-                const Spacer(),
-                
-                // Skip Button
-                TextButton(
-                  onPressed: () {
-                    // Default to snowball and skip quiz
-                    context.go('/debt-input');
-                  },
-                  child: const Text('Skip quiz and choose manually'),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Progress Bar
+              LinearProgressIndicator(
+                value: progress,
+                backgroundColor: AppColors.backgroundLight,
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.success),
+                minHeight: 8,
+                borderRadius: BorderRadius.circular(4),
+              ).animate(key: ValueKey('progress_$_currentQuestion')).fadeIn(),
+              
+              const SizedBox(height: 16),
+              
+              // Question Counter
+              Text(
+                'Question ${_currentQuestion + 1} of ${_questions.length}',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppColors.textOnDark.withValues(alpha: 0.7),
                 ),
-              ],
-            ),
+              ).animate(key: ValueKey('counter_$_currentQuestion')).fadeIn(),
+              
+              const SizedBox(height: 32),
+              
+              // Question
+              Text(
+                question.question,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: AppColors.textOnDark,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).animate(key: ValueKey('question_$_currentQuestion'))
+                  .fadeIn(duration: 300.ms)
+                  .slideY(begin: 0.2, end: 0),
+              
+              const SizedBox(height: 32),
+              
+              // Options
+              ...question.options.asMap().entries.map((entry) {
+                final index = entry.key;
+                final option = entry.value;
+                final isSelected = _answers[_currentQuestion] == option.score;
+                
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: _OptionCard(
+                    text: option.text,
+                    isSelected: isSelected,
+                    onTap: () => _answerQuestion(option.score),
+                  ).animate(key: ValueKey('$_currentQuestion-$index'))
+                      .fadeIn(delay: (index * 100).ms)
+                      .slideX(begin: -0.2, end: 0),
+                );
+              }),
+              
+              const Spacer(),
+              
+              // Skip Button
+              TextButton(
+                onPressed: () {
+                  // Default to snowball and skip quiz
+                  context.go('/debt-input');
+                },
+                child: const Text('Skip quiz and choose manually'),
+              ),
+            ],
           ),
         ),
       ),
@@ -313,7 +350,7 @@ class _ResultsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surfaceDark,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: const EdgeInsets.all(24),
@@ -325,7 +362,7 @@ class _ResultsSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.textOnDark.withValues(alpha: 0.3),
+              color: AppColors.textMuted.withOpacity(0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -352,7 +389,7 @@ class _ResultsSheet extends StatelessWidget {
           Text(
             'We recommend:',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppColors.textOnDark.withValues(alpha: 0.7),
+              color: AppColors.textMuted,
             ),
           ),
           
@@ -361,7 +398,7 @@ class _ResultsSheet extends StatelessWidget {
           Text(
             methodName,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppColors.textOnDark,
+              color: AppColors.primaryBlue,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -389,28 +426,23 @@ class _ResultsSheet extends StatelessWidget {
           // Explanation
           Text(
             explanation,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AppColors.textOnDark.withValues(alpha: 0.9),
-            ),
+            style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
           
           const SizedBox(height: 32),
           
           // Continue Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                context.go('/debt-input');
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
-                backgroundColor: AppColors.rewardGold,
-              ),
-              child: const Text('Continue with this method'),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              context.go('/debt-input');
+            },
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
+              backgroundColor: AppColors.rewardGold,
             ),
+            child: const Text('Continue with this method'),
           ),
           
           const SizedBox(height: 12),
