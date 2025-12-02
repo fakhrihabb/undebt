@@ -17,13 +17,13 @@ class WelcomeScreen extends StatelessWidget {
           gradient: AppColors.backgroundGradient,
         ),
         child: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Spacer(),
+                const SizedBox(height: 40),
                 
                 // App Logo/Icon with gradient
                 Container(
@@ -124,7 +124,7 @@ class WelcomeScreen extends StatelessWidget {
                   duration: 400.ms,
                 ),
                 
-                const Spacer(),
+                const SizedBox(height: 40),
                 
                 // Get Started Button with gradient
                 GradientButton(
