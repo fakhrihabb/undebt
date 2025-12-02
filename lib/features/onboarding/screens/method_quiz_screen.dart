@@ -146,7 +146,7 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
                 valueColor: AlwaysStoppedAnimation<Color>(AppColors.success),
                 minHeight: 8,
                 borderRadius: BorderRadius.circular(4),
-              ).animate(key: ValueKey(_currentQuestion)).fadeIn(),
+              ).animate(key: ValueKey('progress_$_currentQuestion')).fadeIn(),
               
               const SizedBox(height: 16),
               
@@ -156,7 +156,7 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppColors.textMuted,
                 ),
-              ).animate(key: ValueKey(_currentQuestion)).fadeIn(),
+              ).animate(key: ValueKey('counter_$_currentQuestion')).fadeIn(),
               
               const SizedBox(height: 32),
               
@@ -167,7 +167,7 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
                   color: AppColors.primaryBlue,
                   fontWeight: FontWeight.bold,
                 ),
-              ).animate(key: ValueKey(_currentQuestion))
+              ).animate(key: ValueKey('question_$_currentQuestion'))
                   .fadeIn(duration: 300.ms)
                   .slideY(begin: 0.2, end: 0),
               
