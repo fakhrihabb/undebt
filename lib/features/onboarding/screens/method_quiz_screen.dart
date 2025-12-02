@@ -122,17 +122,6 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
   Widget build(BuildContext context) {
     final question = _questions[_currentQuestion];
     final progress = (_currentQuestion + 1) / _questions.length;
-
-    return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
-      appBar: AppBar(
-        backgroundColor: AppColors.surfaceDark,
-        title: const Text('Find Your Method', style: TextStyle(color: Colors.white)),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            if (_currentQuestion > 0) {
-              _previousQuestion();
             } else {
               context.pop();
             }
@@ -151,74 +140,75 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
           ),
         ),
         child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Progress Bar
-              LinearProgressIndicator(
-                value: progress,
-                backgroundColor: AppColors.backgroundLight,
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.success),
-                minHeight: 8,
-                borderRadius: BorderRadius.circular(4),
-              ).animate(key: ValueKey('progress_$_currentQuestion')).fadeIn(),
-              
-              const SizedBox(height: 16),
-              
-              // Question Counter
-              Text(
-                'Question ${_currentQuestion + 1} of ${_questions.length}',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textOnDark.withValues(alpha: 0.7),
-                ),
-              ).animate(key: ValueKey('counter_$_currentQuestion')).fadeIn(),
-              
-              const SizedBox(height: 32),
-              
-              // Question
-              Text(
-                question.question,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: AppColors.textOnDark,
-                  fontWeight: FontWeight.bold,
-                ),
-              ).animate(key: ValueKey('question_$_currentQuestion'))
-                  .fadeIn(duration: 300.ms)
-                  .slideY(begin: 0.2, end: 0),
-              
-              const SizedBox(height: 32),
-              
-              // Options
-              ...question.options.asMap().entries.map((entry) {
-                final index = entry.key;
-                final option = entry.value;
-                final isSelected = _answers[_currentQuestion] == option.score;
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Progress Bar
+                LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: AppColors.backgroundLight,
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.success),
+                  minHeight: 8,
+                  borderRadius: BorderRadius.circular(4),
+                ).animate(key: ValueKey('progress_$_currentQuestion')).fadeIn(),
                 
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: _OptionCard(
-                    text: option.text,
-                    isSelected: isSelected,
-                    onTap: () => _answerQuestion(option.score),
-                  ).animate(key: ValueKey('$_currentQuestion-$index'))
-                      .fadeIn(delay: (index * 100).ms)
-                      .slideX(begin: -0.2, end: 0),
-                );
-              }),
-              
-              const Spacer(),
-              
-              // Skip Button
-              TextButton(
-                onPressed: () {
-                  // Default to snowball and skip quiz
-                  context.go('/debt-input');
-                },
-                child: const Text('Skip quiz and choose manually'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                
+                // Question Counter
+                Text(
+                  'Question ${_currentQuestion + 1} of ${_questions.length}',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.textOnDark.withValues(alpha: 0.7),
+                  ),
+                ).animate(key: ValueKey('counter_$_currentQuestion')).fadeIn(),
+                
+                const SizedBox(height: 32),
+                
+                // Question
+                Text(
+                  question.question,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: AppColors.textOnDark,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ).animate(key: ValueKey('question_$_currentQuestion'))
+                    .fadeIn(duration: 300.ms)
+                    .slideY(begin: 0.2, end: 0),
+                
+                const SizedBox(height: 32),
+                
+                // Options
+                ...question.options.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final option = entry.value;
+                  final isSelected = _answers[_currentQuestion] == option.score;
+                  
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: _OptionCard(
+                      text: option.text,
+                      isSelected: isSelected,
+                      onTap: () => _answerQuestion(option.score),
+                    ).animate(key: ValueKey('$_currentQuestion-$index'))
+                        .fadeIn(delay: (index * 100).ms)
+                        .slideX(begin: -0.2, end: 0),
+                  );
+                }),
+                
+                const Spacer(),
+                
+                // Skip Button
+                TextButton(
+                  onPressed: () {
+                    // Default to snowball and skip quiz
+                    context.go('/debt-input');
+                  },
+                  child: const Text('Skip quiz and choose manually'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
