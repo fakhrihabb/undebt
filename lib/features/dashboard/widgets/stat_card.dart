@@ -49,8 +49,8 @@ class StatCard extends StatelessWidget {
               child: imagePath != null
                   ? Image.asset(
                       imagePath!,
-                      width: 64,
-                      height: 64,
+                      width: 80,
+                      height: 80,
                       fit: BoxFit.contain,
                     )
                   : Icon(
