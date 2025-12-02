@@ -136,7 +136,7 @@ class DashboardScreen extends StatelessWidget {
       // Floating Action Button
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/debt-input'),
-        backgroundColor: AppColors.rewardGold,
+        backgroundColor: AppColors.primaryBlue,
         icon: const Icon(Icons.add_rounded, color: Colors.white),
         label: const Text(
           'Add Debt',
