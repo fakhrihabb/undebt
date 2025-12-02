@@ -3,7 +3,8 @@ import 'package:undebt/core/constants/app_colors.dart';
 
 /// Stat card widget for displaying dashboard statistics
 class StatCard extends StatelessWidget {
-  final IconData icon;
+  final String? imagePath; // Path to custom image icon
+  final IconData? icon; // Fallback to Material icon
   final String label;
   final String value;
   final Color? iconColor;
@@ -11,7 +12,8 @@ class StatCard extends StatelessWidget {
 
   const StatCard({
     super.key,
-    required this.icon,
+    this.imagePath,
+    this.icon,
     required this.label,
     required this.value,
     this.iconColor,
@@ -44,11 +46,18 @@ class StatCard extends StatelessWidget {
           // Icon centered vertically (takes up space)
           Expanded(
             child: Center(
-              child: Icon(
-                icon,
-                size: 56,
-                color: iconColor ?? AppColors.primaryBlue,
-              ),
+              child: imagePath != null
+                  ? Image.asset(
+                      imagePath!,
+                      width: 64,
+                      height: 64,
+                      fit: BoxFit.contain,
+                    )
+                  : Icon(
+                      icon ?? Icons.help_outline,
+                      size: 56,
+                      color: iconColor ?? AppColors.primaryBlue,
+                    ),
             ),
           ),
           

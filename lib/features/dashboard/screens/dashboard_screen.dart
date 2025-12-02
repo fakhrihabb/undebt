@@ -73,28 +73,24 @@ class DashboardScreen extends StatelessWidget {
                       childAspectRatio: 1.0, // Square cards
                       children: const [
                         StatCard(
-                          icon: Icons.account_balance_wallet_rounded,
+                          imagePath: 'assets/images/quick-stats-icons/1.png',
                           label: 'Total Debt',
                           value: '\$0',
-                          iconColor: AppColors.error,
                         ),
                         StatCard(
-                          icon: Icons.calendar_month_rounded,
+                          imagePath: 'assets/images/quick-stats-icons/2.png',
                           label: 'Monthly Payment',
                           value: '\$0',
-                          iconColor: AppColors.warning,
                         ),
                         StatCard(
-                          icon: Icons.event_available_rounded,
+                          imagePath: 'assets/images/quick-stats-icons/3.png',
                           label: 'Debt-Free Date',
                           value: 'N/A',
-                          iconColor: AppColors.success,
                         ),
                         StatCard(
-                          icon: Icons.savings_rounded,
+                          imagePath: 'assets/images/quick-stats-icons/4.png',
                           label: 'Interest to Pay',
                           value: '\$0',
-                          iconColor: AppColors.primaryBlue,
                         ),
                       ],
                     ),
