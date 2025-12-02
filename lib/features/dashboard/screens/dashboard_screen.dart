@@ -38,7 +38,7 @@ class DashboardScreen extends StatelessWidget {
               }
 
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 90), // Extra bottom padding for nav bar
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -70,7 +70,7 @@ class DashboardScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
-                      childAspectRatio: 1.3,
+                      childAspectRatio: 1.0, // Square cards
                       children: const [
                         StatCard(
                           icon: Icons.account_balance_wallet_rounded,
