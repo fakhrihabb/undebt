@@ -40,13 +40,16 @@ class StatCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Icon at top
-          Icon(
-            icon,
-            size: 56,
-            color: iconColor ?? AppColors.primaryBlue,
+          // Icon centered vertically (takes up space)
+          Expanded(
+            child: Center(
+              child: Icon(
+                icon,
+                size: 56,
+                color: iconColor ?? AppColors.primaryBlue,
+              ),
+            ),
           ),
           
           // Value and Label at bottom
