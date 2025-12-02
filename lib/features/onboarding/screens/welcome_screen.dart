@@ -3,18 +3,26 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:undebt/core/constants/app_colors.dart';
 import 'package:undebt/core/constants/app_constants.dart';
-import 'package:undebt/core/theme/app_theme.dart';
+import 'package:undebt/core/widgets/button_3d.dart';
 
-/// Welcome screen - modern design with gradients
+/// Welcome screen - modern design with dark background and 3D effects
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundDark,
       body: Container(
         decoration: BoxDecoration(
-          gradient: AppColors.backgroundGradient,
+          gradient: LinearGradient(
+            colors: [
+              AppColors.backgroundDark,
+              AppColors.primaryBlue.withValues(alpha: 0.1),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
         child: SafeArea(
           child: SingleChildScrollView(
@@ -34,8 +42,8 @@ class WelcomeScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.skyBlue.withValues(alpha: 0.3),
-                        blurRadius: 30,
+                        color: AppColors.skyBlue.withValues(alpha: 0.5),
+                        blurRadius: 40,
                         offset: const Offset(0, 10),
                       ),
                     ],
@@ -75,7 +83,7 @@ class WelcomeScreen extends StatelessWidget {
                 Text(
                   AppConstants.appTagline,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: AppColors.textOnDark.withValues(alpha: 0.8),
                   ),
                   textAlign: TextAlign.center,
                 ).animate().fadeIn(delay: 400.ms).slideY(
@@ -86,7 +94,7 @@ class WelcomeScreen extends StatelessWidget {
                 
                 const SizedBox(height: 48),
                 
-                // Feature Highlights with glass cards
+                // Feature Highlights with 3D cards
                 _FeatureItem(
                   icon: Icons.psychology_outlined,
                   title: 'Science-Backed Methods',
@@ -126,14 +134,11 @@ class WelcomeScreen extends StatelessWidget {
                 
                 const SizedBox(height: 40),
                 
-                // Get Started Button with gradient
-                GradientButton(
+                // Get Started Button with 3D effect
+                Button3D(
                   onPressed: () => context.go('/method-quiz'),
                   gradient: AppColors.primaryGradient,
-                  child: const Text(
-                    'Get Started',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+                  child: const Text('Get Started'),
                 ).animate().fadeIn(delay: 1000.ms).scale(
                   begin: const Offset(0.8, 0.8),
                   end: const Offset(1, 1),
@@ -149,7 +154,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: Text(
                     'I already have an account',
                     style: TextStyle(
-                      color: AppColors.textMuted,
+                      color: AppColors.textOnDark.withValues(alpha: 0.6),
                       fontSize: 14,
                     ),
                   ),
@@ -180,8 +185,9 @@ class _FeatureItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassCard(
+    return Card3D(
       padding: const EdgeInsets.all(16),
+      backgroundColor: AppColors.surfaceDark,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -193,8 +199,8 @@ class _FeatureItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: gradient.colors.first.withValues(alpha: 0.3),
-                  blurRadius: 8,
+                  color: gradient.colors.first.withValues(alpha: 0.4),
+                  blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -214,14 +220,14 @@ class _FeatureItem extends StatelessWidget {
                   title,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: AppColors.textOnDark,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   description,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textMuted,
+                    color: AppColors.textOnDark.withValues(alpha: 0.7),
                   ),
                 ),
               ],

@@ -124,16 +124,33 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
     final progress = (_currentQuestion + 1) / _questions.length;
 
     return Scaffold(
+      backgroundColor: AppColors.backgroundDark,
       appBar: AppBar(
-        title: const Text('Find Your Method'),
-        leading: _currentQuestion > 0
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: _previousQuestion,
-              )
-            : null,
+        backgroundColor: AppColors.surfaceDark,
+        title: const Text('Find Your Method', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            if (_currentQuestion > 0) {
+              _previousQuestion();
+            } else {
+              context.pop();
+            }
+          },
+        ),
       ),
-      body: SafeArea(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.backgroundDark,
+              AppColors.primaryBlue.withValues(alpha: 0.1),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
@@ -154,7 +171,7 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
               Text(
                 'Question ${_currentQuestion + 1} of ${_questions.length}',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textMuted,
+                  color: AppColors.textOnDark.withValues(alpha: 0.7),
                 ),
               ).animate(key: ValueKey('counter_$_currentQuestion')).fadeIn(),
               
@@ -164,7 +181,7 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
               Text(
                 question.question,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: AppColors.primaryBlue,
+                  color: AppColors.textOnDark,
                   fontWeight: FontWeight.bold,
                 ),
               ).animate(key: ValueKey('question_$_currentQuestion'))
@@ -236,39 +253,55 @@ class _OptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: isSelected 
-              ? AppColors.success.withOpacity(0.1)
-              : AppColors.surfaceLight,
-          border: Border.all(
-            color: isSelected ? AppColors.success : AppColors.primaryBlue.withOpacity(0.2),
-            width: isSelected ? 2 : 1,
-          ),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: isSelected ? AppColors.success : AppColors.textPrimary,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                ),
-              ),
+      child: Stack(
+        children: [
+          // Shadow layer (3D effect)
+          Container(
+            margin: const EdgeInsets.only(top: 4),
+            decoration: BoxDecoration(
+              color: isSelected 
+                  ? AppColors.success.withValues(alpha: 0.3)
+                  : AppColors.surfaceDark.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(16),
             ),
-            if (isSelected)
-              Icon(
-                Icons.check_circle,
-                color: AppColors.success,
+            height: 76,
+          ),
+          // Main card
+          Container(
+            height: 72,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: isSelected 
+                  ? AppColors.success.withValues(alpha: 0.2)
+                  : AppColors.surfaceDark,
+              border: Border.all(
+                color: isSelected ? AppColors.success : AppColors.textOnDark.withValues(alpha: 0.2),
+                width: isSelected ? 2 : 1,
               ),
-          ],
-        ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    text,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: isSelected ? AppColors.success : AppColors.textOnDark,
+                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                    ),
+                  ),
+                ),
+                if (isSelected)
+                  Icon(
+                    Icons.check_circle,
+                    color: AppColors.success,
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -315,7 +348,7 @@ class _ResultsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: AppColors.surfaceDark,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: const EdgeInsets.all(24),
@@ -327,7 +360,7 @@ class _ResultsSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.textMuted.withOpacity(0.3),
+              color: AppColors.textOnDark.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -354,7 +387,7 @@ class _ResultsSheet extends StatelessWidget {
           Text(
             'We recommend:',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppColors.textMuted,
+              color: AppColors.textOnDark.withValues(alpha: 0.7),
             ),
           ),
           
@@ -363,7 +396,7 @@ class _ResultsSheet extends StatelessWidget {
           Text(
             methodName,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppColors.primaryBlue,
+              color: AppColors.textOnDark,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -391,23 +424,28 @@ class _ResultsSheet extends StatelessWidget {
           // Explanation
           Text(
             explanation,
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: AppColors.textOnDark.withValues(alpha: 0.9),
+            ),
             textAlign: TextAlign.center,
           ),
           
           const SizedBox(height: 32),
           
           // Continue Button
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              context.go('/debt-input');
-            },
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
-              backgroundColor: AppColors.rewardGold,
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                context.go('/debt-input');
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
+                backgroundColor: AppColors.rewardGold,
+              ),
+              child: const Text('Continue with this method'),
             ),
-            child: const Text('Continue with this method'),
           ),
           
           const SizedBox(height: 12),
