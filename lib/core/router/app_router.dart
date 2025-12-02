@@ -3,11 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:undebt/features/onboarding/screens/welcome_screen.dart';
 import 'package:undebt/features/onboarding/screens/method_quiz_screen.dart';
 import 'package:undebt/features/onboarding/screens/debt_input_screen.dart';
-import 'package:undebt/features/dashboard/screens/dashboard_screen.dart';
-import 'package:undebt/features/progress/screens/progress_screen.dart';
-import 'package:undebt/features/achievements/screens/achievements_screen.dart';
-import 'package:undebt/features/settings/screens/settings_screen.dart';
-import 'package:undebt/features/payment/screens/payment_screen.dart';
+import 'package:undebt/core/screens/main_shell.dart';
 import 'package:undebt/features/debt/screens/debt_detail_screen.dart';
 
 /// App router configuration
@@ -32,37 +28,14 @@ class AppRouter {
         builder: (context, state) => const DebtInputScreen(),
       ),
 
-      // Main App Routes
+      // Main App Shell (with bottom navigation)
       GoRoute(
         path: '/dashboard',
         name: 'dashboard',
-        builder: (context, state) => const DashboardScreen(),
-      ),
-      GoRoute(
-        path: '/progress',
-        name: 'progress',
-        builder: (context, state) => const ProgressScreen(),
-      ),
-      GoRoute(
-        path: '/achievements',
-        name: 'achievements',
-        builder: (context, state) => const AchievementsScreen(),
-      ),
-      GoRoute(
-        path: '/settings',
-        name: 'settings',
-        builder: (context, state) => const SettingsScreen(),
+        builder: (context, state) => const MainShell(),
       ),
 
       // Detail Routes
-      GoRoute(
-        path: '/payment/:debtId',
-        name: 'payment',
-        builder: (context, state) {
-          final debtId = state.pathParameters['debtId']!;
-          return PaymentScreen(debtId: debtId);
-        },
-      ),
       GoRoute(
         path: '/debt/:debtId',
         name: 'debt-detail',
