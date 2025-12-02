@@ -123,7 +123,6 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
     final question = _questions[_currentQuestion];
     final progress = (_currentQuestion + 1) / _questions.length;
 
-
     return Scaffold(
       backgroundColor: AppColors.backgroundDark,
       appBar: AppBar(
@@ -222,6 +221,7 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
               ),
             ],
           ),
+        ),
         ),
       ),
     );
@@ -350,7 +350,7 @@ class _ResultsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: AppColors.surfaceDark,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: const EdgeInsets.all(24),
@@ -362,7 +362,7 @@ class _ResultsSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.textMuted.withOpacity(0.3),
+              color: AppColors.textOnDark.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -389,7 +389,7 @@ class _ResultsSheet extends StatelessWidget {
           Text(
             'We recommend:',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppColors.textMuted,
+              color: AppColors.textOnDark.withValues(alpha: 0.7),
             ),
           ),
           
@@ -398,7 +398,7 @@ class _ResultsSheet extends StatelessWidget {
           Text(
             methodName,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppColors.primaryBlue,
+              color: AppColors.textOnDark,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -426,7 +426,9 @@ class _ResultsSheet extends StatelessWidget {
           // Explanation
           Text(
             explanation,
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: AppColors.textOnDark.withValues(alpha: 0.9),
+            ),
             textAlign: TextAlign.center,
           ),
           
