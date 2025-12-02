@@ -44,9 +44,9 @@ class DashboardScreen extends StatelessWidget {
                   children: [
                     // Character Header
                     CharacterHeader(
-                      name: user.name,
+                      name: user.email.split('@')[0], // Use email username as name
                       level: user.level,
-                      currentXP: user.xp,
+                      currentXP: user.totalXp,
                       nextLevelXP: user.xpForNextLevel,
                     ),
                     

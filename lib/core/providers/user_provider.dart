@@ -13,16 +13,12 @@ class UserProvider extends ChangeNotifier {
   void initializeMockUser() {
     _user = UserModel(
       id: 'mock-user-id',
-      name: 'Debt Slayer',
       email: 'user@example.com',
-      xp: 350,
+      totalXp: 350,
       level: 3,
-      totalDebtsPaid: 0,
-      currentStreak: 5,
-      longestStreak: 12,
-      createdAt: DateTime.now().subtract(const Duration(days: 30)),
-      isPremium: false,
-      preferredMethod: 'snowball',
+      currentStreakDays: 5,
+      selectedMethod: 'snowball',
+      onboardingComplete: true,
     );
     notifyListeners();
   }
@@ -34,21 +30,15 @@ class UserProvider extends ChangeNotifier {
 
   void addXP(int amount) {
     if (_user != null) {
-      _user = _user!.addXP(amount);
+      final leveledUp = _user!.addXp(amount);
       notifyListeners();
+      // Could trigger level up celebration here if leveledUp is true
     }
   }
 
-  void incrementStreak() {
+  void updateStreak() {
     if (_user != null) {
-      _user = _user!.incrementStreak();
-      notifyListeners();
-    }
-  }
-
-  void resetStreak() {
-    if (_user != null) {
-      _user = _user!.resetStreak();
+      _user!.updateStreak();
       notifyListeners();
     }
   }
