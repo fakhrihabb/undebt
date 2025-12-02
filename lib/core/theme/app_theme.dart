@@ -1,8 +1,9 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:undebt/core/constants/app_colors.dart';
 
-/// App theme configuration with light and dark modes
+/// App theme configuration with modern gradients and glassmorphism
 class AppTheme {
   AppTheme._();
 
@@ -12,13 +13,13 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: ColorScheme.light(
-        primary: AppColors.deepSlate,
-        secondary: AppColors.antiqueGold,
-        tertiary: AppColors.sageGreen,
-        error: AppColors.mutedClay,
+        primary: AppColors.primaryBlue,
+        secondary: AppColors.skyBlue,
+        tertiary: AppColors.success,
+        error: AppColors.error,
         surface: AppColors.surfaceLight,
-        onPrimary: AppColors.vapor,
-        onSecondary: AppColors.obsidian,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
         onSurface: AppColors.textPrimary,
         onError: Colors.white,
       ),
@@ -27,9 +28,9 @@ class AppTheme {
       // Typography
       textTheme: _textTheme(AppColors.textPrimary),
       
-      // AppBar Theme
+      // AppBar Theme (glassmorphism)
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.surfaceLight,
+        backgroundColor: Colors.transparent,
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
         centerTitle: true,
@@ -40,22 +41,27 @@ class AppTheme {
         ),
       ),
       
-      // Card Theme
+      // Card Theme (glassmorphism)
       cardTheme: CardThemeData(
-        color: AppColors.surfaceLight,
-        elevation: 2,
-        shadowColor: AppColors.cardShadow,
+        color: AppColors.glassLight,
+        elevation: 0,
+        shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(
+            color: AppColors.glassBorderLight,
+            width: 1.5,
+          ),
         ),
       ),
       
       // Elevated Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.deepSlate,
-          foregroundColor: AppColors.vapor,
-          elevation: 2,
+          backgroundColor: AppColors.skyBlue,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -70,7 +76,7 @@ class AppTheme {
       // Text Button Theme
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.deepSlate,
+          foregroundColor: AppColors.skyBlue,
           textStyle: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -84,23 +90,23 @@ class AppTheme {
         fillColor: AppColors.surfaceLight,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.deepSlate.withOpacity(0.2)),
+          borderSide: BorderSide(color: AppColors.slate.withValues(alpha: 0.2)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.deepSlate.withOpacity(0.2)),
+          borderSide: BorderSide(color: AppColors.slate.withValues(alpha: 0.2)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.deepSlate, width: 2),
+          borderSide: const BorderSide(color: AppColors.skyBlue, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.mutedClay, width: 1),
+          borderSide: const BorderSide(color: AppColors.error, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.mutedClay, width: 2),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
         ),
         labelStyle: GoogleFonts.inter(
           fontSize: 14,
@@ -114,13 +120,13 @@ class AppTheme {
       
       // Progress Indicator Theme
       progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColors.sageGreen,
-        linearTrackColor: AppColors.vapor,
+        color: AppColors.skyBlue,
+        linearTrackColor: AppColors.backgroundLight,
       ),
       
       // Floating Action Button Theme
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: AppColors.antiqueGold,
+        backgroundColor: AppColors.skyBlue,
         foregroundColor: Colors.white,
         elevation: 4,
       ),
@@ -133,13 +139,13 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.dark(
-        primary: AppColors.antiqueGold,
-        secondary: AppColors.sageGreen,
-        tertiary: AppColors.deepSlate,
-        error: AppColors.mutedClay,
+        primary: AppColors.skyBlue,
+        secondary: AppColors.lightBlue,
+        tertiary: AppColors.success,
+        error: AppColors.error,
         surface: AppColors.surfaceDark,
-        onPrimary: AppColors.obsidian,
-        onSecondary: AppColors.obsidian,
+        onPrimary: AppColors.backgroundDark,
+        onSecondary: AppColors.backgroundDark,
         onSurface: AppColors.textOnDark,
         onError: Colors.white,
       ),
@@ -148,9 +154,9 @@ class AppTheme {
       // Typography
       textTheme: _textTheme(AppColors.textOnDark),
       
-      // AppBar Theme
+      // AppBar Theme (glassmorphism)
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.surfaceDark,
+        backgroundColor: Colors.transparent,
         foregroundColor: AppColors.textOnDark,
         elevation: 0,
         centerTitle: true,
@@ -161,22 +167,27 @@ class AppTheme {
         ),
       ),
       
-      // Card Theme
+      // Card Theme (glassmorphism)
       cardTheme: CardThemeData(
-        color: AppColors.surfaceDark,
-        elevation: 4,
-        shadowColor: Colors.black45,
+        color: AppColors.glassDark,
+        elevation: 0,
+        shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(
+            color: AppColors.glassBorderDark,
+            width: 1.5,
+          ),
         ),
       ),
       
       // Elevated Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.antiqueGold,
-          foregroundColor: AppColors.obsidian,
-          elevation: 2,
+          backgroundColor: AppColors.skyBlue,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -191,7 +202,7 @@ class AppTheme {
       // Text Button Theme
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.antiqueGold,
+          foregroundColor: AppColors.lightBlue,
           textStyle: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -205,27 +216,27 @@ class AppTheme {
         fillColor: AppColors.surfaceDark,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.vapor.withOpacity(0.2)),
+          borderSide: BorderSide(color: AppColors.textOnDark.withValues(alpha: 0.2)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.vapor.withOpacity(0.2)),
+          borderSide: BorderSide(color: AppColors.textOnDark.withValues(alpha: 0.2)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.antiqueGold, width: 2),
+          borderSide: const BorderSide(color: AppColors.lightBlue, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.mutedClay, width: 1),
+          borderSide: const BorderSide(color: AppColors.error, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.mutedClay, width: 2),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
         ),
         labelStyle: GoogleFonts.inter(
           fontSize: 14,
-          color: AppColors.textOnDark.withOpacity(0.7),
+          color: AppColors.textOnDark.withValues(alpha: 0.7),
         ),
         hintStyle: GoogleFonts.inter(
           fontSize: 14,
@@ -235,14 +246,14 @@ class AppTheme {
       
       // Progress Indicator Theme
       progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColors.sageGreen,
+        color: AppColors.lightBlue,
         linearTrackColor: AppColors.surfaceDark,
       ),
       
       // Floating Action Button Theme
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: AppColors.antiqueGold,
-        foregroundColor: AppColors.obsidian,
+        backgroundColor: AppColors.skyBlue,
+        foregroundColor: Colors.white,
         elevation: 4,
       ),
     );
@@ -316,7 +327,7 @@ class AppTheme {
       bodySmall: GoogleFonts.inter(
         fontSize: 12,
         fontWeight: FontWeight.normal,
-        color: baseColor.withOpacity(0.7),
+        color: baseColor.withValues(alpha: 0.7),
       ),
       
       // Label styles
@@ -333,7 +344,94 @@ class AppTheme {
       labelSmall: GoogleFonts.inter(
         fontSize: 11,
         fontWeight: FontWeight.w500,
-        color: baseColor.withOpacity(0.7),
+        color: baseColor.withValues(alpha: 0.7),
+      ),
+    );
+  }
+}
+
+/// Helper widget for gradient buttons
+class GradientButton extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onPressed;
+  final Gradient? gradient;
+  final double borderRadius;
+  final EdgeInsetsGeometry? padding;
+
+  const GradientButton({
+    super.key,
+    required this.child,
+    required this.onPressed,
+    this.gradient,
+    this.borderRadius = 12,
+    this.padding,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: gradient ?? AppColors.primaryGradient,
+        borderRadius: BorderRadius.circular(borderRadius),
+        boxShadow: [
+          BoxShadow(
+            color: (gradient?.colors.first ?? AppColors.gradientStart).withValues(alpha: 0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          padding: padding ?? const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+        ),
+        child: child,
+      ),
+    );
+  }
+}
+
+/// Helper widget for glass morphism cards
+class GlassCard extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+  final double borderRadius;
+  final double blur;
+
+  const GlassCard({
+    super.key,
+    required this.child,
+    this.padding,
+    this.borderRadius = 20,
+    this.blur = 10,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+        child: Container(
+          padding: padding ?? const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: isDark ? AppColors.glassDark : AppColors.glassLight,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(
+              color: isDark ? AppColors.glassBorderDark : AppColors.glassBorderLight,
+              width: 1.5,
+            ),
+          ),
+          child: child,
+        ),
       ),
     );
   }

@@ -142,8 +142,8 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
               // Progress Bar
               LinearProgressIndicator(
                 value: progress,
-                backgroundColor: AppColors.vapor,
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.sageGreen),
+                backgroundColor: AppColors.backgroundLight,
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.success),
                 minHeight: 8,
                 borderRadius: BorderRadius.circular(4),
               ).animate(key: ValueKey(_currentQuestion)).fadeIn(),
@@ -164,7 +164,7 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
               Text(
                 question.question,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: AppColors.deepSlate,
+                  color: AppColors.primaryBlue,
                   fontWeight: FontWeight.bold,
                 ),
               ).animate(key: ValueKey(_currentQuestion))
@@ -243,10 +243,10 @@ class _OptionCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: isSelected 
-              ? AppColors.sageGreen.withOpacity(0.1)
+              ? AppColors.success.withOpacity(0.1)
               : AppColors.surfaceLight,
           border: Border.all(
-            color: isSelected ? AppColors.sageGreen : AppColors.deepSlate.withOpacity(0.2),
+            color: isSelected ? AppColors.success : AppColors.primaryBlue.withOpacity(0.2),
             width: isSelected ? 2 : 1,
           ),
           borderRadius: BorderRadius.circular(16),
@@ -257,7 +257,7 @@ class _OptionCard extends StatelessWidget {
               child: Text(
                 text,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: isSelected ? AppColors.sageGreen : AppColors.textPrimary,
+                  color: isSelected ? AppColors.success : AppColors.textPrimary,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                 ),
               ),
@@ -265,7 +265,7 @@ class _OptionCard extends StatelessWidget {
             if (isSelected)
               Icon(
                 Icons.check_circle,
-                color: AppColors.sageGreen,
+                color: AppColors.success,
               ),
           ],
         ),
@@ -338,13 +338,13 @@ class _ResultsSheet extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: AppColors.antiqueGold.withOpacity(0.1),
+              color: AppColors.rewardGold.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               methodIcon,
               size: 48,
-              color: AppColors.antiqueGold,
+              color: AppColors.rewardGold,
             ),
           ),
           
@@ -363,7 +363,7 @@ class _ResultsSheet extends StatelessWidget {
           Text(
             methodName,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppColors.deepSlate,
+              color: AppColors.primaryBlue,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -374,12 +374,12 @@ class _ResultsSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.verified, color: AppColors.sageGreen, size: 20),
+              Icon(Icons.verified, color: AppColors.success, size: 20),
               const SizedBox(width: 8),
               Text(
                 '$confidence% match',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.sageGreen,
+                  color: AppColors.success,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -405,7 +405,7 @@ class _ResultsSheet extends StatelessWidget {
             },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
-              backgroundColor: AppColors.antiqueGold,
+              backgroundColor: AppColors.rewardGold,
             ),
             child: const Text('Continue with this method'),
           ),
