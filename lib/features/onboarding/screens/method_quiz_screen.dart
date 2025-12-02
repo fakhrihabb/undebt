@@ -102,31 +102,6 @@ class _MethodQuizScreenState extends State<MethodQuizScreen> {
       recommendedMethod = AppConstants.methodHybrid;
       explanation = 'The Hybrid method balances both approaches! '
           'You\'ll target high-interest debts (>20% APR) first, '
-          'then use the snowball method for the rest.';
-      confidence = 75;
-    }
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => _ResultsSheet(
-        method: recommendedMethod,
-        explanation: explanation,
-        confidence: confidence,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final question = _questions[_currentQuestion];
-    final progress = (_currentQuestion + 1) / _questions.length;
-            } else {
-              context.pop();
-            }
-          },
-        ),
       ),
       body: Container(
         decoration: BoxDecoration(
