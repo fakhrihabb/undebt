@@ -6,6 +6,7 @@ import 'package:undebt/core/services/supabase_service.dart';
 import 'package:undebt/core/services/local_storage_service.dart';
 import 'package:undebt/core/providers/navigation_provider.dart';
 import 'package:undebt/core/providers/user_provider.dart';
+import 'package:undebt/core/providers/debt_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +38,7 @@ class UndebApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()..initializeMockUser()),
+        ChangeNotifierProvider(create: (_) => DebtProvider()..initializeMockDebts()),
       ],
       child: MaterialApp.router(
         title: 'Undebt',
