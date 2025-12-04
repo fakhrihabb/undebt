@@ -13,11 +13,11 @@ class MainShell extends StatelessWidget {
   const MainShell({super.key});
 
   static final List<Widget> _screens = [
-    const DashboardScreen(),
-    const ProgressScreen(),
-    const PaymentScreen(),
-    const AchievementsScreen(),
-    const SettingsScreen(),
+    const DashboardScreen(),      // Index 0
+    const PaymentScreen(),         // Index 1
+    const ProgressScreen(),        // Index 2 (Monsters - center)
+    const AchievementsScreen(),    // Index 3
+    const SettingsScreen(),        // Index 4
   ];
 
   @override
