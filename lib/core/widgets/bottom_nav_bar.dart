@@ -12,7 +12,7 @@ class BottomNavBar extends StatelessWidget {
     return Consumer<NavigationProvider>(
       builder: (context, navProvider, child) {
         return Container(
-          height: 70,
+          height: 80,
           decoration: BoxDecoration(
             color: AppColors.surfaceDark.withValues(alpha: 0.95),
             boxShadow: [
@@ -36,15 +36,16 @@ class BottomNavBar extends StatelessWidget {
                   onTap: () => navProvider.setIndex(0),
                 ),
                 _NavItem(
-                  icon: Icons.trending_up_rounded,
-                  label: 'Progress',
+                  icon: Icons.payment_rounded,
+                  label: 'Payments',
                   index: 1,
                   isActive: navProvider.currentIndex == 1,
                   onTap: () => navProvider.setIndex(1),
                 ),
-                _NavItem(
-                  icon: Icons.payment_rounded,
-                  label: 'Payments',
+                // Center button with special styling
+                _CenterNavButton(
+                  icon: Icons.pets_rounded,
+                  label: 'Monsters',
                   index: 2,
                   isActive: navProvider.currentIndex == 2,
                   onTap: () => navProvider.setIndex(2),
@@ -130,6 +131,92 @@ class _NavItem extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 2),
+              // Label
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                  color: isActive
+                      ? AppColors.primaryBlue
+                      : AppColors.textOnDark.withValues(alpha: 0.6),
+                ),
+                child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Special center navigation button with circular gradient background
+class _CenterNavButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final int index;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  const _CenterNavButton({
+    required this.icon,
+    required this.label,
+    required this.index,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(35),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Circular gradient button
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  gradient: isActive
+                      ? AppColors.primaryGradient
+                      : LinearGradient(
+                          colors: [
+                            AppColors.surfaceDark.withValues(alpha: 0.8),
+                            AppColors.surfaceDark.withValues(alpha: 0.6),
+                          ],
+                        ),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: isActive
+                        ? AppColors.primaryBlue.withValues(alpha: 0.5)
+                        : AppColors.textOnDark.withValues(alpha: 0.2),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    if (isActive)
+                      BoxShadow(
+                        color: AppColors.primaryBlue.withValues(alpha: 0.4),
+                        blurRadius: 16,
+                        spreadRadius: 2,
+                      ),
+                  ],
+                ),
+                child: Icon(
+                  icon,
+                  size: 28,
+                  color: isActive
+                      ? Colors.white
+                      : AppColors.textOnDark.withValues(alpha: 0.6),
+                ),
               ),
               const SizedBox(height: 2),
               // Label
