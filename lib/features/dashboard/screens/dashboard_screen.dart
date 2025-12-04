@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:undebt/core/constants/app_colors.dart';
 import 'package:undebt/core/providers/user_provider.dart';
+import 'package:undebt/core/providers/debt_provider.dart';
 import 'package:undebt/core/widgets/button_3d.dart';
 import 'package:undebt/features/dashboard/widgets/character_header.dart';
 import 'package:undebt/features/dashboard/widgets/stat_card.dart';
+import 'package:undebt/features/dashboard/widgets/monster_card.dart';
+import 'package:undebt/core/utils/currency_formatter.dart';
 
 /// Main dashboard screen showing character, stats, and debts
 class DashboardScreen extends StatelessWidget {
@@ -26,18 +30,29 @@ class DashboardScreen extends StatelessWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: SafeArea(
-          child: Consumer<UserProvider>(
-            builder: (context, userProvider, child) {
-              final user = userProvider.user;
-              
-              if (user == null) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+        child: Consumer2<UserProvider, DebtProvider>(
+          builder: (context, userProvider, debtProvider, child) {
+            final user = userProvider.user;
+            
+            if (user == null) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-              return SingleChildScrollView(
+            final prioritizedDebts = debtProvider.getPrioritizedDebts();
+            final totalDebt = debtProvider.getTotalDebt();
+            final monthlyPayment = debtProvider.getTotalMonthlyPayment();
+            final debtFreeDate = debtProvider.getDebtFreeDate();
+            final interestToPay = debtProvider.getTotalInterestToPay();
+
+            return RefreshIndicator(
+              onRefresh: () async {
+                await debtProvider.loadDebts();
+              },
+              color: AppColors.primaryBlue,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 90), // Extra bottom padding for nav bar
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,26 +86,28 @@ class DashboardScreen extends StatelessWidget {
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
                       childAspectRatio: 1.0, // Square cards
-                      children: const [
+                      children: [
                         StatCard(
                           imagePath: 'assets/images/quick-stats-icons/1.png',
                           label: 'Total Debt',
-                          value: '\$0',
+                          value: CurrencyFormatter.format(totalDebt),
                         ),
                         StatCard(
                           imagePath: 'assets/images/quick-stats-icons/2.png',
                           label: 'Monthly Payment',
-                          value: '\$0',
+                          value: CurrencyFormatter.format(monthlyPayment),
                         ),
                         StatCard(
                           imagePath: 'assets/images/quick-stats-icons/3.png',
                           label: 'Debt-Free Date',
-                          value: 'N/A',
+                          value: debtFreeDate != null
+                              ? DateFormat('MMM yyyy').format(debtFreeDate)
+                              : 'N/A',
                         ),
                         StatCard(
                           imagePath: 'assets/images/quick-stats-icons/4.png',
                           label: 'Interest to Pay',
-                          value: '\$0',
+                          value: CurrencyFormatter.format(interestToPay),
                         ),
                       ],
                     ),
@@ -109,7 +126,7 @@ class DashboardScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '0 debts',
+                          '${prioritizedDebts.length} ${prioritizedDebts.length == 1 ? 'debt' : 'debts'}',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: AppColors.textOnDark.withValues(alpha: 0.6),
                           ),
@@ -119,13 +136,25 @@ class DashboardScreen extends StatelessWidget {
                     
                     const SizedBox(height: 24),
                     
-                    // Empty State
-                    _EmptyState(),
+                    // Monster Cards or Empty State
+                    if (prioritizedDebts.isEmpty)
+                      _EmptyState()
+                    else
+                      ...prioritizedDebts.map((debt) {
+                        final isPriority = debt.priority == 1;
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: MonsterCard(
+                            debt: debt,
+                            isPriority: isPriority,
+                          ),
+                        );
+                      }).toList(),
                   ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
       
